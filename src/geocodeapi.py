@@ -126,10 +126,8 @@ def get_rawOffset(timezoneId):
         try:
             timezone = pytz.timezone(timezoneId)
             timeinzone = timezone.localize(datetime.datetime.now())
-            nowdt = timeinzone.strftime('%z')
-            h = s2f(nowdt)
-            m = (h - int(h))/60.0
-            h = int(h/100.0)+m
+            nowdelta = timeinzone.utcoffset()
+            h = nowdelta.total_seconds() / 3600
             return h
         except Exception as e:
             print('Error calculating rawOffset: %s' % (str(e)))
